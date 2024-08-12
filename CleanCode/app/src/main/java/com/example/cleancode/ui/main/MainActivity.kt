@@ -27,11 +27,19 @@ import com.example.cleancode.ui.theme.CleanCodeTheme
 import com.example.cleancode.ui.viewmodel.UserViewModel
 import com.example.cleancode.ui.viewmodel.UserViewModelFactory
 import androidx.compose.foundation.lazy.items
+import androidx.room.Room
+import com.example.cleancode.data.datasource.UserDatabase
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel: UserViewModel by viewModels {
-        UserViewModelFactory(GetUsersUseCase(UserRepositoryImpl(UserRemoteDataSourceImpl())))
+        val database = Room.databaseBuilder(
+            applicationContext,
+            UserDatabase::class.java,
+            "user_database"
+        ).build()
+
+        UserViewModelFactory(GetUsersUseCase(UserRepositoryImpl(database.userDao())))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
