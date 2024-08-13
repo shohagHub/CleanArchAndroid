@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cleancode.domain.model.User
 import com.example.cleancode.domain.usecase.GetUsersUseCase
+import com.example.cleancode.domain.usecase.InsertUserUseCases
 import kotlinx.coroutines.launch
 
-class UserViewModel(private val getUserUseCase: GetUsersUseCase) : ViewModel(){
+class UserViewModel(private val getUserUseCase: GetUsersUseCase,
+    private val insertUserUseCases: InsertUserUseCases) : ViewModel(){
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> get() = _users
 
@@ -16,6 +18,13 @@ class UserViewModel(private val getUserUseCase: GetUsersUseCase) : ViewModel(){
         viewModelScope.launch {
             val userList = getUserUseCase.execute()
             _users.postValue(userList)
+        }
+    }
+
+    fun insertUser(user: User) {
+        viewModelScope.launch {
+            insertUserUseCases.insertUser(user)
+            fetchUser()
         }
     }
 }
