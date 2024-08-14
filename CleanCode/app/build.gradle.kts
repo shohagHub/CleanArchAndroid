@@ -1,8 +1,11 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 //    id("com.google.devtools.ksp")
+
+    //HILT:
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -80,4 +83,13 @@ dependencies {
     // To use Kotlin Symbol Processing (KSP)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
+
+    //HILT:
+    implementation("com.google.dagger:hilt-android:2.46")
+    kapt("com.google.dagger:hilt-android-compiler:2.46")
+    //For viewmodel
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    //androidx.hilt:hilt-lifecycle-viewmodel:1.0.0
+   // implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0")
+
 }

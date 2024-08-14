@@ -29,21 +29,26 @@ import androidx.room.Room
 import com.example.cleancode.data.datasource.UserDatabase
 import com.example.cleancode.domain.model.User
 import com.example.cleancode.domain.usecase.InsertUserUseCases
+import dagger.hilt.android.lifecycle.HiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: UserViewModel by viewModels {
-        val database = Room.databaseBuilder(
-            applicationContext,
-            UserDatabase::class.java,
-            "user_database"
-        ).build()
-        val userRepository = UserRepositoryImpl(database.userDao())
-
-        UserViewModelFactory(GetUsersUseCase(userRepository),
-            InsertUserUseCases(userRepository)
-        )
-    }
+//    private val viewModel: UserViewModel by viewModels {
+//        val database = Room.databaseBuilder(
+//            applicationContext,
+//            UserDatabase::class.java,
+//            "user_database"
+//        ).build()
+//        val userRepository = UserRepositoryImpl(database.userDao())
+//
+//        UserViewModelFactory(GetUsersUseCase(userRepository),
+//            InsertUserUseCases(userRepository)
+//        )
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +62,7 @@ class MainActivity : ComponentActivity() {
 //                    )
 //                }
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    UserScreen(viewModel = viewModel)
+                    UserScreen()
                 }
             }
         }
@@ -81,7 +86,7 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun UserScreen(viewModel: UserViewModel) {
+fun UserScreen(viewModel: UserViewModel = hiltViewModel()) {
     val users by viewModel.users.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {

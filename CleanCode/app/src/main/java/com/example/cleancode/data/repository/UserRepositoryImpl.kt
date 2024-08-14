@@ -5,8 +5,9 @@ import com.example.cleancode.data.datasource.room.dao.UserDao
 import com.example.cleancode.data.datasource.room.entity.UserEntity
 import com.example.cleancode.domain.model.User
 import com.example.cleancode.domain.repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl(private val userDao: UserDao) : UserRepository {
+class UserRepositoryImpl @Inject constructor(private val userDao: UserDao) : UserRepository {
     override suspend fun getUsers(): List<User> {
         return userDao.getUsers().map { it.toDomainDomel() }
     }

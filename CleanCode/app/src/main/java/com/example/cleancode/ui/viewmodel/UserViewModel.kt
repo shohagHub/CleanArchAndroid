@@ -7,9 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.cleancode.domain.model.User
 import com.example.cleancode.domain.usecase.GetUsersUseCase
 import com.example.cleancode.domain.usecase.InsertUserUseCases
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserViewModel(private val getUserUseCase: GetUsersUseCase,
+@HiltViewModel
+class UserViewModel @Inject constructor(
+    private val getUserUseCase: GetUsersUseCase,
     private val insertUserUseCases: InsertUserUseCases) : ViewModel(){
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> get() = _users
